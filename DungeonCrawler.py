@@ -17,6 +17,7 @@ GRAY = (100, 100, 100)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
+BLUE = (0, 0, 255)
 
 # Define player properties
 player_pos = [WIDTH // 2, HEIGHT // 2]
@@ -31,7 +32,10 @@ dungeon_height = HEIGHT // TILE_SIZE
 enemy_size = TILE_SIZE
 enemies = []
 
-# Create a function to generate a new dungeon level with enemies
+# Define items
+items = []
+
+# Create a function to generate a new dungeon level with enemies and items
 def generate_dungeon():
     dungeon = [[random.choice([0, 1]) for _ in range(dungeon_width)] for _ in range(dungeon_height)]
     dungeon[dungeon_height // 2][dungeon_width // 2] = 0  # Ensure the player starts in an open space
@@ -39,8 +43,11 @@ def generate_dungeon():
     dungeon[exit_pos[0]][exit_pos[1]] = 2  # Mark the exit
     
     # Generate enemies
-    global enemies
+    global enemies, items
     enemies = [(random.randint(0, dungeon_width - 1) * TILE_SIZE, random.randint(0, dungeon_height - 1) * TILE_SIZE) for _ in range(5)]
+    
+    # Generate items (health potions)
+    items = [(random.randint(0, dungeon_width - 1) * TILE_SIZE, random.randint(0, dungeon_height - 1) * TILE_SIZE) for _ in range(3)]
     return dungeon, exit_pos
 
 # Initialize the first dungeon level
@@ -75,9 +82,15 @@ def main():
 
         # Check for collisions with enemies
         for enemy in enemies:
-            if player_pos[0] == enemy[0] and player_pos[1] == enemy[1]:
+            if player_pos[0] == enemy[0] and player_pos[1] == enemy[1]]:
                 player_health -= 10  # Player takes damage from the enemy
                 enemies.remove(enemy)  # Remove the enemy after collision
+
+        # Check for item collection (health potions)
+        for item in items:
+            if player_pos[0] == item[0] and player_pos[1] == item[1]]:
+                player_health = min(player_health + 20, 100)  # Increase player's health, max 100
+                items.remove(item)  # Remove the item after collection
 
         # Drawing the dungeon
         window.fill(BLACK)
@@ -91,6 +104,10 @@ def main():
         # Draw enemies
         for enemy in enemies:
             pygame.draw.rect(window, YELLOW, (*enemy, TILE_SIZE, TILE_SIZE))
+
+        # Draw items (health potions)
+        for item in items:
+            pygame.draw.rect(window, BLUE, (*item, TILE_SIZE, TILE_SIZE))
 
         # Draw the player
         pygame.draw.rect(window, RED, (*player_pos, TILE_SIZE, TILE_SIZE))
@@ -106,5 +123,5 @@ def main():
 
     pygame.quit()
 
-if __name__ == "__main__":
+if __name__ == "__name__":
     main()
