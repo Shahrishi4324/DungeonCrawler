@@ -24,9 +24,6 @@ This is a simple Dungeon Crawler game built with Python and Pygame. The player n
 ## Installation
 
 1. Clone this repository:
-   ```bash
-   git clone https://github.com/your-username/dungeon-crawler-game.git
-   cd dungeon-crawler-game
 2. Install pygame
 3. Run the game:
    ```python dungeon_crawler.py```
